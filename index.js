@@ -6,7 +6,7 @@ const app = express();
 const tokens = {};
 
 initializeApp({
-  credential: admin.credential.cert(require("./config/service.json")),
+  credential: admin.credential.cert(require("./config/admin-service.json")),
 });
 app.use(express.json());
 app.get("/", function (req, res) {
@@ -14,7 +14,7 @@ app.get("/", function (req, res) {
 });
 
 app.post("/token", function (req, res) {
-  console.info("receiving new registration");
+  console.info("receiving new registration", { ...req.body });
   if (req.body.token && req.body.id) {
     tokens[req.body.id] = req.body.token;
   }
@@ -42,4 +42,6 @@ app.post("/send", function (req, res) {
   });
 });
 
-app.listen(3000);
+app.listen(3000, () => {
+  console.info("running at 30000");
+});
